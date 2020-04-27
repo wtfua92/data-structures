@@ -12,6 +12,7 @@ interface LinkedListInterface {
   prepend(value: string): LinkedList;
   append(value: string): LinkedList;
   insertAtPosition(value: string, position: number): LinkedList;
+  printLinkedList(): void;
 }
 
 export class LinkedListNode implements LinkedListNodeInterface {
@@ -100,6 +101,11 @@ export default class LinkedList implements LinkedListInterface {
 
     let prevNode: LinkedListNodeInterface = this.head;
 
+    if (prevNode.data === value) {
+      this.head = prevNode.next;
+      return prevNode;
+    }
+
     while (prevNode.next && prevNode.next.data !== value) {
       prevNode = prevNode.next;
     }
@@ -113,5 +119,22 @@ export default class LinkedList implements LinkedListInterface {
     this.length -= 1;
 
     return nodeToDelete;
+  }
+
+  printLinkedList(): void {
+    if (this.isEmpty()) {
+      console.log("The list is empty");
+      return;
+    }
+
+    let result: string = this.head.data;
+    let currentNode = this.head.next;
+
+    while (currentNode) {
+      result += ` --> ${currentNode.data}`;
+      currentNode = currentNode.next;
+    }
+    console.log(result);
+    return;
   }
 }
