@@ -1,4 +1,4 @@
-import LinkedList from "./LinkedList";
+import LinkedList, { LinkedListNode } from "./LinkedList";
 
 const TEST_VALUE = "test";
 let linkedList: LinkedList;
@@ -45,6 +45,32 @@ describe("LinkedList", function () {
       linkedList.append(TEST_VALUE + 2);
       expect(linkedList.size()).toEqual(2);
       expect(linkedList.head.next.data).toEqual(TEST_VALUE + 2);
+    });
+  });
+
+  describe("LinkedList.delete()", function () {
+    beforeEach(() => {
+      for (let i = 0; i < 5; i++) {
+        linkedList.append(TEST_VALUE + i);
+      }
+    });
+    it("should delete node with particular value and return it", function () {
+      const linkedListSize = linkedList.size();
+
+      const deleteResult = linkedList.delete(TEST_VALUE + 2);
+
+      expect(deleteResult instanceof LinkedListNode).toEqual(true);
+      expect(linkedList.size()).toEqual(linkedListSize - 1);
+      expect(linkedList.search(TEST_VALUE + 2)).toEqual(null);
+    });
+
+    it("should return null if value is not present in the list", () => {
+      expect(linkedList.delete(TEST_VALUE + 100)).toBeFalsy();
+    });
+
+    it("should return null the list is empty", () => {
+      const linkedList = new LinkedList();
+      expect(linkedList.delete(TEST_VALUE + 100)).toBeFalsy();
     });
   });
 });

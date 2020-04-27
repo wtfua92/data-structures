@@ -14,7 +14,7 @@ interface LinkedListInterface {
   insertAtPosition(value: string, position: number): LinkedList;
 }
 
-class LinkedListNode implements LinkedListNodeInterface {
+export class LinkedListNode implements LinkedListNodeInterface {
   constructor(public data: string, public next: LinkedListNode | null = null) {}
 }
 
@@ -94,6 +94,24 @@ export default class LinkedList implements LinkedListInterface {
   }
 
   delete(value: string): LinkedListNode | null {
-    return null;
+    if (this.isEmpty()) {
+      return null;
+    }
+
+    let prevNode: LinkedListNodeInterface = this.head;
+
+    while (prevNode.next && prevNode.next.data !== value) {
+      prevNode = prevNode.next;
+    }
+
+    if (!prevNode.next) {
+      return null;
+    }
+
+    const nodeToDelete = prevNode.next;
+    prevNode.next = prevNode.next.next;
+    this.length -= 1;
+
+    return nodeToDelete;
   }
 }
