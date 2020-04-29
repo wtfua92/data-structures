@@ -89,4 +89,88 @@ describe("LinkedList", function () {
       expect(linkedList.head.data).toEqual(TEST_VALUE + 1);
     });
   });
+
+  describe("LinkedList.search()", () => {
+    beforeEach(() => {
+      for (let i = 0; i < 5; i++) {
+        linkedList.append(TEST_VALUE + i);
+      }
+    });
+
+    it("should return the node with searched value", () => {
+      const result = linkedList.search(TEST_VALUE + 2);
+      expect(result.data).toEqual(TEST_VALUE + 2);
+    });
+
+    it("should return null if the list is empty", () => {
+      linkedList = new LinkedList();
+      expect(linkedList.search(TEST_VALUE)).toBe(null);
+    });
+
+    it("should return null if value wasn't found", () => {
+      expect(linkedList.search(TEST_VALUE + 100)).toBe(null);
+    });
+
+    it("should return head value", () => {
+      expect(linkedList.search(TEST_VALUE + 0)).toBe(linkedList.head);
+    });
+  });
+
+  describe("LinkedList.searchAtPosition()", () => {
+    beforeEach(() => {
+      for (let i = 0; i < 5; i++) {
+        linkedList.append(TEST_VALUE + i);
+      }
+    });
+
+    it("should return the node at the searched position", () => {
+      const result = linkedList.searchAtPosition(3);
+      linkedList.printLinkedList();
+      expect(result.data).toEqual(TEST_VALUE + 3);
+    });
+
+    it("should return null if the list is empty", () => {
+      linkedList = new LinkedList();
+      linkedList.printLinkedList();
+      expect(linkedList.searchAtPosition(2)).toBe(null);
+    });
+
+    it("should return null if position is bigger than length", () => {
+      linkedList.printLinkedList();
+      expect(linkedList.searchAtPosition(100)).toBe(null);
+    });
+
+    it("should return head node", () => {
+      linkedList.printLinkedList();
+      expect(linkedList.searchAtPosition(0)).toBe(linkedList.head);
+    });
+  });
+
+  describe("LinkedList.insertAtPosition()", () => {
+    beforeEach(() => {
+      for (let i = 0; i < 5; i++) {
+        linkedList.append(TEST_VALUE + i);
+      }
+    });
+
+    it("should insert a new node in specified position", () => {
+      linkedList.insertAtPosition(TEST_VALUE + 100, 2);
+      linkedList.printLinkedList();
+      expect(linkedList.searchAtPosition(2).data).toEqual(TEST_VALUE + 100);
+    });
+
+    it("should prepend new node if position is 0", () => {
+      linkedList.insertAtPosition(TEST_VALUE + 100, 0);
+      linkedList.printLinkedList();
+      expect(linkedList.searchAtPosition(0).data).toEqual(TEST_VALUE + 100);
+    });
+
+    it("should append a new node if position is bigger than length", () => {
+      linkedList.insertAtPosition(TEST_VALUE + 100, 100);
+      expect(linkedList.searchAtPosition(100)).toEqual(null);
+      expect(linkedList.searchAtPosition(linkedList.size() - 1).data).toEqual(
+        TEST_VALUE + 100
+      );
+    });
+  });
 });

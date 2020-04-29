@@ -8,6 +8,7 @@ interface LinkedListInterface {
   isEmpty(): boolean;
   size(): number;
   search(value: string): LinkedListNodeInterface | null;
+  searchAtPosition(position: number): LinkedListNodeInterface | null;
   delete(value: string): LinkedListNodeInterface | null;
   prepend(value: string): LinkedList;
   append(value: string): LinkedList;
@@ -69,17 +70,19 @@ export default class LinkedList implements LinkedListInterface {
   insertAtPosition(value: string, position: number): LinkedList {
     if (position === 0) {
       this.prepend(value);
+      return this;
     }
 
     if (position > this.length) {
       this.append(value);
+      return this;
     }
 
-    let currentPosition = 0;
-    let currentNode = this.head;
+    let currentPosition = 1;
+    let currentNode = this.head.next;
     const newNode = new LinkedListNode(value);
 
-    while (currentPosition < position) {
+    while (currentPosition < position - 1) {
       currentPosition += 1;
       currentNode = currentNode.next;
     }
@@ -91,7 +94,45 @@ export default class LinkedList implements LinkedListInterface {
   }
 
   search(value: string): LinkedListNode | null {
-    return null;
+    if (this.isEmpty()) {
+      return null;
+    }
+
+    let currentNode = this.head;
+
+    if (currentNode.data === value) {
+      return currentNode;
+    }
+
+    while (currentNode && currentNode.data !== value) {
+      currentNode = currentNode.next;
+    }
+
+    if (!currentNode) {
+      return null;
+    }
+
+    return currentNode;
+  }
+
+  searchAtPosition(position: number): LinkedListNode | null {
+    if (this.isEmpty() || position > this.length) {
+      return null;
+    }
+
+    if (position === 0) {
+      return this.head;
+    }
+
+    let currentNode = this.head.next;
+    let currentPosition = 1;
+
+    while (currentPosition < position) {
+      currentNode = currentNode.next;
+      currentPosition += 1;
+    }
+
+    return currentNode;
   }
 
   delete(value: string): LinkedListNode | null {
@@ -115,7 +156,7 @@ export default class LinkedList implements LinkedListInterface {
     }
 
     const nodeToDelete = prevNode.next;
-    prevNode.next = prevNode.next.next;
+    prevNode.next = nodeToDelete.next;
     this.length -= 1;
 
     return nodeToDelete;
