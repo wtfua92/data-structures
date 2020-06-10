@@ -1,14 +1,6 @@
-export function swap(arr: number[], indexA: number, indexB: number): number[] {
-  const newArr = [...arr];
-  const tempValue = newArr[indexA];
+import { swap } from "../tools/tools";
 
-  newArr[indexA] = newArr[indexB];
-  newArr[indexB] = tempValue;
-
-  return newArr;
-}
-
-export function BubbleSortV1(arr: number[]): number[] {
+export function bubbleSortV1(arr: number[]): number[] {
   let newArr = [...arr];
   let swapCounter = -1;
   while (swapCounter !== 0) {
